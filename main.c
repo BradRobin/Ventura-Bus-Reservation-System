@@ -428,7 +428,7 @@ void saveReceiptToFile(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS], int chec
 
 
 // Function to cancel a booking
-void cancelBooking(FILE *receiptFile, int bookingID)
+void cancelBooking(FILE *receiptFile)
 {
     system("cls");
     char password[20]; // Password for authentication
@@ -441,50 +441,50 @@ void cancelBooking(FILE *receiptFile, int bookingID)
     scanf("%s", inputPassword);
 
     // Compare the input password with the correct password
-    if (strcmp(inputPassword, password) == 0)
-    {
+    if (strcmp(inputPassword, password) == 0){
         // Authentication successful, allow cancellation
         printf("Authentication successful!\n");
-        // Code to remove booking information from receipt.txt
-        // Implementation depends on how booking information is stored in the file
-        // Here's an example of how you might remove a specific line containing the booking information:
-        FILE *inputFile = fopen("receipt.txt", "r");
+        FILE *tempFile = fopen("temp.txt", "w");
 
-        if (inputFile == NULL || receiptFile == NULL)
-        {
+        if (tempFile == NULL){
             printf("Error: Unable to open files for processing.\n");
             return;
         }
 
         char line[100];
         int bookingFound = 0;
+
+        //rewind the file to the beginning
+        rewind(receiptFile);
+
         printf("Enter the booking ID to cancel the booking: ");
         scanf("%d", &bookingID);
 
-        while (fgets(line, sizeof(line), inputFile))
+        while (fgets(line, sizeof(line), receiptFile))
         {
-            // If the line contains the booking information, skip it (removing from the file)
             int currentBookingID;
             if (sscanf(line, "Booking ID: %d", &currentBookingID) == 1 && currentBookingID == bookingID)
             {
                 bookingFound = 1;
                 continue;
             }
-            fprintf(receiptFile, "%s", line);
+            fprintf(tempFile, "%s", line);
         }
 
-        fclose(inputFile);
+        fclose(receiptFile);
+        fclose(tempFile);
 
-        // Remove the original file and rename the temporary file to the original file
+        //remove the original file and rename the temporary file
         remove("receipt.txt");
+        rename("temp.txt", "receipt.txt");
 
         if (bookingFound)
         {
-            printf("Booking information removed from receipt.txt\n");
+            printf("Booking information removed.\n");
         }
         else
         {
-            printf("Booking information not found in receipt.txt\n");
+            printf("Booking information not found.\n");
         }
     }
     else
@@ -496,13 +496,27 @@ void cancelBooking(FILE *receiptFile, int bookingID)
 }
 
 // Function to view booking history
-void viewBookingHistory(FILE *temp)
-{
+void viewBookingHistory() {
     system("cls");
-    FILE *file = fopen("receipt.txt", "r");
-    if (file == NULL)
-    {
-        printf("Error: Unable to open the receipt file.\n");
+    int choice;
+    FILE *file;
+
+    printf("Choose an option:\n");
+    printf("1. View all the bookings ever made\n");
+    printf("2. View all current bookings\n");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        file = fopen("receipt.txt", "r");
+    } else if (choice == 2) {
+        file = fopen("temp.txt", "r");
+    } else {
+        printf("Invalid choice.\n");
+        return;
+    }
+
+    if (file == NULL) {
+        printf("Error: Unable to open the selected file.\n");
         return;
     }
 
@@ -511,15 +525,13 @@ void viewBookingHistory(FILE *temp)
     printf("Booking History:\n");
     printf("-------------------------------------------------\n");
 
-    // Display booking history from the file
-    while (fgets(line, sizeof(line), file))
-    {
+    // Display booking history from the selected file
+    while (fgets(line, sizeof(line), file)) {
         printf("%s", line);
     }
 
     fclose(file);
 }
-
 
 
 // Function to register a new employee
@@ -641,7 +653,7 @@ void mainMenu()
             searchBus(busDetails, seatAvailability);
             break;
         case 6:
-            cancelBooking(receipt, bookingID);
+            cancelBooking(receipt);
             fclose(receipt);
             break;
         case 7:

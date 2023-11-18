@@ -1,25 +1,6 @@
-Booking ID: 11Seat Number: Row 0, Column 3Amount Paid: 1500 kshNairobi to Meru 
+Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshMeru to Kisumu 
+Booking ID: 22Seat Number: Row 2, Column 3Amount Paid: 1500 kshMeru to Eldoret 
 
-Booking ID: 11Seat Number: Row 4, Column 2Amount Paid: 1500 kshNairobi to Kisumu 
+Booking ID: 231Seat Number: Row 7, Column 2Amount Paid: 1500 kshNakuru to Meru 
 
-Booking ID: 22Seat Number: Row 5, Column 3Amount Paid: 1500 kshNairobi to Kisumu 
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshNairobi to Kisumu 
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshNairobi to Kisumu 
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshNairobi to Kisumu 
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshNairobi to Kisumu 
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshNairobi to Mombasa 
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshNairobi to Mombasa 
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshNairobi to Mombasa 
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshNairobi to Mombasa 
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 ksh to  
-
-Booking ID: 11Seat Number: Row 0, Column 0Amount Paid: 1500 kshKisumu to Nakuru 
+Booking ID: 11Seat Number: Row 7, Column 2Amount Paid: 1500 kshNairobi to Eldoret 

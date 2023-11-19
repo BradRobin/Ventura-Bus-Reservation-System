@@ -72,8 +72,7 @@ char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH] =
     {"Meru", "Kisumu"}
 };
 
-char seatAvailability[NUM_ROWS][2][NUM_COLUMNS] =
-{
+char seatAvailability[NUM_ROWS][2][NUM_COLUMNS] = {
     {0, 0, 0, 0},
     {0, 0, 0, 0},
     {0, 0, 0, 0},
@@ -284,21 +283,19 @@ int viewAvailableSeats(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
     printf("  W 4. |%d |%d |%d |%d\n", *seatAvailability[4][0], *seatAvailability[4][1], *seatAvailability[4][2], *seatAvailability[4][3]);
     printf("    5. |%d |%d |%d |%d\n", *seatAvailability[5][0], *seatAvailability[5][1], *seatAvailability[5][2], *seatAvailability[5][3]);
     printf("    6. |%d |%d |%d |%d\n", *seatAvailability[6][0], *seatAvailability[6][1], *seatAvailability[6][2], *seatAvailability[6][3]);
-    printf("    7. |%d |%d |%d |%d\n", *seatAvailability[7][0], *seatAvailability[7][1], *seatAvailability[7][3]);
+    printf("    7. |%d |%d |%d |%d\n", *seatAvailability[7][0], *seatAvailability[7][1], *seatAvailability[7][2]);
 
     checkSeatAvailability(seatAvailability);
     printBusLayout(seatAvailability);
     return 0;
 }
 
-int isSeatAvailable(row, column)
-{
+int isSeatAvailable(row, column){
     return seatAvailability[row][0][column] == 0 && seatAvailability[row][1][column] == 0;
 }
 
 // Function to book a seat
-void bookSeat(row, column)
-{
+void bookSeat(row, column){
     seatAvailability[row][0][column] = 1;
     seatAvailability[row][1][column] = 1;
     bookingID++;

@@ -4,3 +4,5 @@ Booking ID: 22Seat Number: Row 2, Column 3Amount Paid: 1500 kshMeru to Eldoret
 Booking ID: 231Seat Number: Row 7, Column 2Amount Paid: 1500 kshNakuru to Meru 
 
 Booking ID: 11Seat Number: Row 7, Column 2Amount Paid: 1500 kshNairobi to Eldoret 
+
+Booking ID: 11Seat Number: Row 7, Column 2Amount Paid: 1500 kshMeru to Eldoret 

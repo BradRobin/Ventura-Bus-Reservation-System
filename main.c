@@ -42,6 +42,7 @@ int choice2;
 char departure[MAX_NAME_LENGTH];
 char destination[MAX_NAME_LENGTH];
 int programRun = 0;
+char busVenturaType[MAX_NAME_LENGTH];
 //Array to represent all buses routes
 char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH] =
 {
@@ -336,8 +337,7 @@ void checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
             printf("Amount to pay is 1500KSH, Do you wish to proceed to pay? \n1.Yes\n2.No\n");
             scanf("%d", &choice);
 
-            if (choice == 1)
-            {
+            if (choice == 1){
 
                 printf("Enter the amount to pay: sh");
                 scanf("%d", &userAmount);
@@ -354,17 +354,14 @@ void checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
                     printf("Incorrect amount. Booking failed.\n");
                 }
             }
-            else if (choice == 2)
-            {
+            else if (choice == 2){
                 return 1;
             }
-            else
-            {
+            else{
                 printf("Invalid choice");
             }
         }
-        else
-        {
+        else{
             printf("Invalid seat number.\n");
         }
     }
@@ -372,14 +369,12 @@ void checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
 
 
 
-int calculateTotalAmount()
-{
+int calculateTotalAmount(){
     int SEAT_COST = 1500;
     return SEAT_COST;
 }
 
-int checkBookingStatus(int row, int column)
-{
+int checkBookingStatus(int row, int column){
     if (isSeatAvailable(row, column))
     {
         return 0; // Booking failed
@@ -392,11 +387,25 @@ int checkBookingStatus(int row, int column)
 }
 
 // Function to issue a receipt
-void printRecipt(int checkSeatAvailability, char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
-{
+void printRecipt(int checkSeatAvailability, char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
+    if (strcmp(departure, "Nairobi") == 0) {
+        strcpy(busVenturaType, "VenturaA");
+    } else if (strcmp(destination, "Kisumu") == 0) {
+        strcpy(busVenturaType, "VenturaB");
+    } else if (strcmp(destination, "Mombasa") == 0) {
+        strcpy(busVenturaType, "VenturaC");
+    } else if (strcmp(destination, "Nakuru") == 0) {
+        strcpy(busVenturaType, "VenturaD");
+    } else if (strcmp(destination, "Meru") == 0) {
+        strcpy(busVenturaType, "VenturaE");
+    } else {
+        // Default label if no match
+        return "VenturaX";
+    }
     printf("Booking Successful!\n");
     printf("Receipt:\n");
-    printf("Booking ID: %d%d", bookingID, programRun);
+    printf("Booking ID: %d%d ", bookingID, programRun);
+    printf("%s ", busVenturaType);
     printf("Seat Number: Row %d, Column %d\n", row, column);
     printf("Amount Paid: %d ksh\n", userAmount);
     printf("%s to %s \n", departure, destination);
@@ -404,20 +413,18 @@ void printRecipt(int checkSeatAvailability, char seatAvailability[NUM_ROWS][2][N
     mainMenu();
 }
 
-void saveReceiptToFile(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS], int checkSeatAvailability)
-{
+void saveReceiptToFile(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS], int checkSeatAvailability){
     FILE *file = fopen("receipt.txt", "a");
 
-    if (file != NULL)
-    {
+    if (file != NULL){
         fprintf(file, "\nBooking ID: %d%d", bookingID, programRun);
+        fprintf(file, "%s ", busVenturaType);
         fprintf(file, "Seat Number: Row %d, Column %d", row, column);
         fprintf(file, "Amount Paid: %d ksh", userAmount);
         fprintf(file, "%s to %s \n", departure, destination);
         fclose(file);
     }
-    else
-    {
+    else{
         printf("Error: Unable to open the file for writing.\n");
     }
     fclose(file);
@@ -425,8 +432,7 @@ void saveReceiptToFile(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS], int chec
 
 
 // Function to cancel a booking
-void cancelBooking(FILE *receiptFile)
-{
+void cancelBooking(FILE *receiptFile){
     system("cls");
     char password[20]; // Password for authentication
     char inputPassword[20]; // User input for password
@@ -457,11 +463,9 @@ void cancelBooking(FILE *receiptFile)
         printf("Enter the booking ID to cancel the booking: ");
         scanf("%d", &bookingID);
 
-        while (fgets(line, sizeof(line), receiptFile))
-        {
+        while (fgets(line, sizeof(line), receiptFile)){
             int currentBookingID;
-            if (sscanf(line, "Booking ID: %d", &currentBookingID) == 1 && currentBookingID == bookingID)
-            {
+            if (sscanf(line, "Booking ID: %d", &currentBookingID) == 1 && currentBookingID == bookingID){
                 bookingFound = 1;
                 continue;
             }
@@ -475,12 +479,10 @@ void cancelBooking(FILE *receiptFile)
         remove("receipt.txt");
         rename("temp.txt", "receipt.txt");
 
-        if (bookingFound)
-        {
+        if (bookingFound){
             printf("Booking information removed.\n");
         }
-        else
-        {
+        else{
             printf("Booking information not found.\n");
         }
     }
@@ -517,7 +519,7 @@ void viewBookingHistory() {
         return;
     }
 
-    char line[100];
+    char line[200];
 
     printf("Booking History:\n");
     printf("-------------------------------------------------\n");
@@ -532,8 +534,7 @@ void viewBookingHistory() {
 
 
 // Function to register a new employee
-void signUp(FILE *credential)
-{
+void signUp(FILE *credential){
     char username[50];
     char password[50];
     printf("----------------------------------------------------------------------------------\n");
@@ -551,8 +552,7 @@ void signUp(FILE *credential)
     system("cls");
 }
 // Function to validate employee login
-int login(FILE *credential)
-{
+int login(FILE *credential){
     char username[50];
     char password[50];
     char fileUsername[50];
@@ -566,10 +566,8 @@ int login(FILE *credential)
     scanf("%s", password);
     rewind(credential); // Reset file pointer to the beginning
 
-    while (fscanf(credential, "%s %s", fileUsername, filePassword) != EOF)
-    {
-        if (strcmp(username, fileUsername) == 0 && strcmp(password, filePassword) == 0)
-        {
+    while (fscanf(credential, "%s %s", fileUsername, filePassword) != EOF){
+        if (strcmp(username, fileUsername) == 0 && strcmp(password, filePassword) == 0){
             printf("----------------------------------------------------------------------------------\n");
             printf("Login successful!\n");
             printf("----------------------------------------------------------------------------------\n");
@@ -582,21 +580,18 @@ int login(FILE *credential)
     return 0;
 }
 
-void programRunCounterPrint()
-{
+void programRunCounterPrint(){
     FILE *programRunfile;
     programRunfile = fopen("programRunfile", "a+");
     fprintf(programRunfile, "%d", programRun);
     fclose(programRunfile);
 }
 
-void programRunCounterRead(FILE *programRunfile)
-{
+void programRunCounterRead(FILE *programRunfile){
     fscanf(programRunfile, "%d", programRun);
 }
 
-void mainMenu()
-{
+void mainMenu(){
 
     FILE *credential;
     credential = fopen("credentials.txt", "a+"); // Open or create the credentials file
@@ -610,16 +605,14 @@ void mainMenu()
     programRunCounterRead(programRunfile);
 
 
-    if (credential == NULL)
-    {
+    if (credential == NULL){
         printf("----------------------------------------------------------------------------------\n");
         printf("Error: Could not open the credentials file.\n");
         printf("----------------------------------------------------------------------------------\n");
         return 1;
     }
 
-    while (1)
-    {
+    while (1){
         printf("Choose an option:\n");
         printf("----------------------------------------------------------------------------------\n");
         printf("1. Add bus schedule\n");
@@ -632,8 +625,7 @@ void mainMenu()
         printf("----------------------------------------------------------------------------------\n");
         scanf("%d", &choice2);
 
-        switch (choice2)
-        {
+        switch (choice2){
         case 1:
             addBusSchedule(busDetails);
             break;
@@ -669,8 +661,7 @@ void mainMenu()
 }
 
 
-int main()
-{
+int main(){
     programRun ++;
     FILE *credential;
     credential = fopen("credentials.txt", "a+"); // Open or create the credentials file
@@ -680,8 +671,7 @@ int main()
     programRunfile = fopen("programRunfile.txt", "a+");
 
 
-    if (credential == NULL)
-    {
+    if (credential == NULL){
         printf("----------------------------------------------------------------------------------\n");
         printf("Error: Could not open the credentials file.\n");
         printf("----------------------------------------------------------------------------------\n");
@@ -692,22 +682,19 @@ int main()
     printf("*************************WELCOME TO THE VENTURA BUS BOOKING SYSTEM****************\n");
     printf("----------------------------------------------------------------------------------\n");
 
-    while (1)
-    {
+    while (1){
         printf("Please Select:\n");
         printf("1. Sign Up\n");
         printf("2. Login\n");
         printf("3. Exit\n");
         scanf("%d", &choice1);
 
-        switch (choice1)
-        {
+        switch (choice1){
         case 1:
             signUp(credential);
             break;
         case 2:
-            if (login(credential))
-            {
+            if (login(credential)){
                 system("cls");
                 mainMenu();
                 break;

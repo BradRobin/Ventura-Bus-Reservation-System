@@ -85,57 +85,63 @@ char seatAvailability[NUM_ROWS][2][NUM_COLUMNS] = {
 };
 
 // Function to add a new bus schedule
-void addBusSchedule(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH])
-{
+void addBusSchedule(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH]){
     system("cls");
 
     char destination[MAX_NAME_LENGTH];
     char departure[MAX_NAME_LENGTH];
 
-    printf("Enter the place of departure: ");
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("| Enter the place of departure: ");
     scanf("%s", departure);
-    printf("Enter the destination: ");
+    printf("| Enter the destination: ");
     scanf("%s", destination);
+    printf("|----------------------------------------------------------------------------------|\n");
 
     strcpy(busDetails[NUM_ROUTES][0], departure);
     strcpy(busDetails[NUM_ROUTES][1], destination);
 
-    printf("New bus schedule added: %s to %s\n", departure, destination);
+    printf("| New bus schedule added: %s to %s                                                  |\n", departure, destination);
 
 }
 // Function to view all bus schedules
-int viewAllBusSchedules(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH])
-{
+int viewAllBusSchedules(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH]){
     system("cls");
     int i;
     int choice;
     int busnumber;
-    printf("----------------------------All Buses Available---------------------------------\n");
+    
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("|                       ALL VENTURA BUSES AVAILABLE                                |\n");
+    printf("|----------------------------------------------------------------------------------|\n");
 
-    for(i = 0; i < NUM_ROUTES; i++)
-    {
-        printf("Route %d: %s to %s\n", i + 1, busDetails[i][0], busDetails[i][1]);
+    for(i = 0; i < NUM_ROUTES; i++){
+        printf("|          Route %d: %s to %s\n", i + 1, busDetails[i][0], busDetails[i][1]);
     }
-
-    printf("Do you want to book a bus? 1. Yes\n2.No\n");
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("| Do you want to book a bus?                                                       |\n");
+    printf("| 1. YES                                                                           |\n");
+    printf("| 2. NO                                                                            |\n");
     scanf("%d", &choice);
+    printf("|----------------------------------------------------------------------------------|\n");
 
     if (choice == 1)
     {
-        printf("Enter the number of the bus you want to book: \n");
+        printf("| Enter the number of the bus you want to book:                                    |\n");
         scanf("%d", &busnumber);
-
+        printf("|----------------------------------------------------------------------------------|\n");
+        system("cls");
         if (busnumber >= 1 && busnumber <= NUM_ROUTES)
         {
             strcpy(departure, busDetails[busnumber - 1][0]);
             strcpy(destination, busDetails[busnumber - 1][1]);
             //Display details of the selected bus
-            printf("Bus Schedule Selected: %s to %s\n", departure, destination);
+            printf("| Bus Schedule Selected: %s to %s                                          |\n", departure, destination);
             viewAvailableSeats(seatAvailability);
         }
         else
         {
-            printf("Invalid bus number. Please enter a valid bus number.\n");
+            printf("| Invalid bus number. Please enter a valid bus number.                      |\n");
         }
     }
     return 0;
@@ -226,9 +232,10 @@ void searchBus(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH], char seatAvailab
     int choice;
     bool busFound = false;
 
-    printf("Enter the place of departure: ");
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("| Enter the place of departure: ");
     scanf("%s", departure);
-    printf("Enter the destination: ");
+    printf("| Enter the destination: ");
     scanf("%s", destination);
     system("cls");
 
@@ -245,10 +252,13 @@ void searchBus(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH], char seatAvailab
     // Display the result to the user
     if (busFound)
     {
-        printf("Bus from %s to %s is available.\n", departure, destination);
-        printf("Do you want to book this bus? \n1. Yes\n2. No\n");
+        printf("|----------------------------------------------------------------------------------|\n");
+        printf("| Bus from %s to %s is available.                                         |\n", departure, destination);
+        printf("| Do you want to book this bus?                                                    |\n");
+        printf("| 1.YES                                                                            |\n");
+        printf("| 2.NO                                                                             |\n");
         scanf("%d", &choice);
-
+        printf("|----------------------------------------------------------------------------------|\n");
         if (choice == 1)
         {
             viewAvailableSeats(seatAvailability);
@@ -266,25 +276,32 @@ void searchBus(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH], char seatAvailab
     }
     else
     {
-        printf("Bus from %s to %s is not available.\n", departure, destination);
-
+        printf("|----------------------------------------------------------------------------------|\n");
+        printf("| Bus from %s to %s is not available.                                              |\n", departure, destination);
+        printf("|----------------------------------------------------------------------------------|\n");
     }
 }
 
 // Function to view available seats for a bus
-int viewAvailableSeats(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
-{
-    printf("Ventura bus from %s to %s \n",departure, destination);
-    printf("         Column    \n");
-    printf("        0. 1. 2. 3\n");
-    printf("    0. |%d |%d |%d |%d\n", *seatAvailability[0][0], *seatAvailability[0][1], *seatAvailability[0][2], *seatAvailability[0][3]);
-    printf("    1. |%d |%d |%d |%d\n", *seatAvailability[1][0], *seatAvailability[1][1], *seatAvailability[1][2], *seatAvailability[1][3]);
-    printf("  R 2. |%d |%d |%d |%d\n", *seatAvailability[2][0], *seatAvailability[2][1], *seatAvailability[2][2], *seatAvailability[2][3]);
-    printf("  O 3. |%d |%d |%d |%d\n", *seatAvailability[3][0], *seatAvailability[3][1], *seatAvailability[3][2], *seatAvailability[3][3]);
-    printf("  W 4. |%d |%d |%d |%d\n", *seatAvailability[4][0], *seatAvailability[4][1], *seatAvailability[4][2], *seatAvailability[4][3]);
-    printf("    5. |%d |%d |%d |%d\n", *seatAvailability[5][0], *seatAvailability[5][1], *seatAvailability[5][2], *seatAvailability[5][3]);
-    printf("    6. |%d |%d |%d |%d\n", *seatAvailability[6][0], *seatAvailability[6][1], *seatAvailability[6][2], *seatAvailability[6][3]);
-    printf("    7. |%d |%d |%d |%d\n", *seatAvailability[7][0], *seatAvailability[7][1], *seatAvailability[7][2]);
+int viewAvailableSeats(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
+
+    printf("|---------------------------------------------------------------------------------|\n");
+    printf("|          Ventura Bus from %s to %s  Available Seats                     |\n", departure, destination);
+    printf("|---------------------------------------------------------------------------------|\n");
+    printf("|                             Column                                              |\n");
+    printf("|                                                                                 |\n");
+    printf("|                         0. 1. 2. 3                                              |\n");
+    printf("|                                                                                 |\n");
+    printf("|                     0. |%d |%d |%d |%d                                              |\n", *seatAvailability[0][0], *seatAvailability[0][1], *seatAvailability[0][2], *seatAvailability[0][3]);
+    printf("|                     1. |%d |%d |%d |%d                                              |\n", *seatAvailability[1][0], *seatAvailability[1][1], *seatAvailability[1][2], *seatAvailability[1][3]);
+    printf("|           R         2. |%d |%d |%d |%d                                              |\n", *seatAvailability[2][0], *seatAvailability[2][1], *seatAvailability[2][2], *seatAvailability[2][3]);
+    printf("|           O         3. |%d |%d |%d |%d                                              |\n", *seatAvailability[3][0], *seatAvailability[3][1], *seatAvailability[3][2], *seatAvailability[3][3]);
+    printf("|           W         4. |%d |%d |%d |%d                                              |\n", *seatAvailability[4][0], *seatAvailability[4][1], *seatAvailability[4][2], *seatAvailability[4][3]);
+    printf("|                     5. |%d |%d |%d |%d                                              |\n", *seatAvailability[5][0], *seatAvailability[5][1], *seatAvailability[5][2], *seatAvailability[5][3]);
+    printf("|                     6. |%d |%d |%d |%d                                              |\n", *seatAvailability[6][0], *seatAvailability[6][1], *seatAvailability[6][2], *seatAvailability[6][3]);
+    printf("|                     7. |%d |%d |%d |%d                                              |\n", *seatAvailability[7][0], *seatAvailability[7][1], *seatAvailability[7][2]);
+    printf("|                                                                                 |\n");
+    printf("|---------------------------------------------------------------------------------|\n");
 
     checkSeatAvailability(seatAvailability);
     printBusLayout(seatAvailability);
@@ -300,52 +317,57 @@ void bookSeat(row, column){
     seatAvailability[row][0][column] = 1;
     seatAvailability[row][1][column] = 1;
     bookingID++;
-    printf("Booking successful! Your Booking ID is: %d\n", bookingID);
+    printf("|---------------------------------------------------------------------------------|\n");
+    printf("| Booking successful! Your Booking ID is: %d                                       |\n", bookingID);
     printBusLayout(seatAvailability);
     saveReceiptToFile(row, column);
 }
 
-void printBusLayout(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
-{
+void printBusLayout(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
     for (int i = 0; i < NUM_ROWS; i++)
     {
         for (int j = 0; j < NUM_COLUMNS; j++)
         {
-            printf("%d ", seatAvailability[i][0][j] || seatAvailability[i][1][j]);
+            printf("| %d ", seatAvailability[i][0][j] || seatAvailability[i][1][j]);
         }
-        printf("\n");
+        printf("                                                                  |\n");
     }
+    printf("|---------------------------------------------------------------------------------|\n");
 }
 
-void checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
-{
+void checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
     int choice;
     userAmount = 0;
     totalAmount = 0;
 
-    printf("Enter row number (0 to 7): ");
+    printf("| Enter row number (0 to 7): ");
     scanf("%d", &row);
-    printf("Enter column number (0 to 3): ");
+    printf("| Enter column number (0 to 3): ");
     scanf("%d", &column);
+    printf("|---------------------------------------------------------------------------------|\n");
 
     if (row >= 0 && row < NUM_ROWS && column >= 0 && column < NUM_COLUMNS)
     {
         if (isSeatAvailable(row, column))
         {
             int totalAmount = calculateTotalAmount();
-            printf("Seat at row %d, column %d is available!\n", row, column);
-            printf("Amount to pay is 1500KSH, Do you wish to proceed to pay? \n1.Yes\n2.No\n");
+            printf("| Seat at row %d, column %d is available!                                           |\n", row, column);
+            printf("| Amount to pay is 1500KSH, Do you wish to proceed to pay?                        |\n");
+            printf("| 1.YES                                                                           |\n");
+            printf("| 2.NO                                                                            |\n");
             scanf("%d", &choice);
 
             if (choice == 1){
-
-                printf("Enter the amount to pay: sh");
+                printf("|---------------------------------------------------------------------------------|\n");
+                printf("| Enter the amount to pay: sh");
                 scanf("%d", &userAmount);
 
                 if(userAmount == totalAmount)
                 {
+                    system("cls");
                     bookSeat(row, column);
-                    printf("Seat at row %d, column %d has been booked.\n", row, column);
+                    printf("| Seat at row %d, column %d has been booked.                                        |\n", row, column);
+                    printf("|---------------------------------------------------------------------------------|\n");
                     printRecipt(userAmount, row);
                     saveReceiptToFile(userAmount, row);
                 }
@@ -402,13 +424,17 @@ void printRecipt(int checkSeatAvailability, char seatAvailability[NUM_ROWS][2][N
         // Default label if no match
         return "VenturaX";
     }
-    printf("Booking Successful!\n");
-    printf("Receipt:\n");
-    printf("Booking ID: %d%d ", bookingID, programRun);
-    printf("%s ", busVenturaType);
-    printf("Seat Number: Row %d, Column %d\n", row, column);
-    printf("Amount Paid: %d ksh\n", userAmount);
-    printf("%s to %s \n", departure, destination);
+    printf("|---------------------------------------------------------------------------------|\n");
+    printf("|                          Booking Successful!                                    |\n");
+    printf("|---------------------------------------------------------------------------------|\n");
+    printf("|                              Receipt:                                           |\n");
+    printf("|---------------------------------------------------------------------------------|\n");
+    printf("| Booking ID:  |%d%d|\n", bookingID, programRun);
+    printf("| Bus ID:      %s\n", busVenturaType);
+    printf("| Seat Number: Row |%d|, Column |%d\n", row, column);
+    printf("| Amount Paid: %d ksh\n", userAmount);
+    printf("| %s to %s\n", departure, destination);
+    printf("|----------------------------------------------------------------------------------|\n");
     programRun++;
     mainMenu();
 }
@@ -500,10 +526,12 @@ void viewBookingHistory() {
     int choice;
     FILE *file;
 
-    printf("Choose an option:\n");
-    printf("1. View all the bookings ever made\n");
-    printf("2. View all current bookings\n");
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("|                             Choose an option:                                    |\n");
+    printf("| 1. View all the bookings ever made                                               |\n");
+    printf("| 2. View all current bookings                                                     |\n");
     scanf("%d", &choice);
+    printf("|----------------------------------------------------------------------------------|\n");
 
     if (choice == 1) {
         file = fopen("receipt.txt", "r");
@@ -521,12 +549,12 @@ void viewBookingHistory() {
 
     char line[200];
 
-    printf("Booking History:\n");
-    printf("-------------------------------------------------\n");
+    printf("|                           Booking History:                                       |\n");
+    printf("|----------------------------------------------------------------------------------|\n");
 
     // Display booking history from the selected file
     while (fgets(line, sizeof(line), file)) {
-        printf("%s", line);
+        printf("| %s", line);
     }
 
     fclose(file);
@@ -537,18 +565,18 @@ void viewBookingHistory() {
 void signUp(FILE *credential){
     char username[50];
     char password[50];
-    printf("----------------------------------------------------------------------------------\n");
-    printf("Enter a username: ");
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("| Enter a username: ");
     scanf("%s", username);
-    printf("----------------------------------------------------------------------------------\n");
-    printf("Enter a password: ");
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("| Enter a password: ");
     scanf("%s", password);
-    printf("----------------------------------------------------------------------------------\n");
+    printf("|----------------------------------------------------------------------------------|\n");
 
     fprintf(credential, "%s %s\n", username, password);
-    printf("----------------------------------------------------------------------------------\n");
-    printf("Registration successful!\n");
-    printf("----------------------------------------------------------------------------------\n");
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("| Registration successful!\n");
+    printf("|----------------------------------------------------------------------------------|\n");
     system("cls");
 }
 // Function to validate employee login
@@ -558,25 +586,25 @@ int login(FILE *credential){
     char fileUsername[50];
     char filePassword[50];
 
-    printf("----------------------------------------------------------------------------------\n");
-    printf("Enter your username: ");
-    scanf("%s", username);
-    printf("----------------------------------------------------------------------------------\n");
-    printf("Enter your password: ");
-    scanf("%s", password);
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("| Enter your username: ");
+    scanf("   %s", username);
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("| Enter your password: ");
+    scanf("   %s", password);
     rewind(credential); // Reset file pointer to the beginning
 
     while (fscanf(credential, "%s %s", fileUsername, filePassword) != EOF){
         if (strcmp(username, fileUsername) == 0 && strcmp(password, filePassword) == 0){
-            printf("----------------------------------------------------------------------------------\n");
-            printf("Login successful!\n");
-            printf("----------------------------------------------------------------------------------\n");
+            printf("|----------------------------------------------------------------------------------|\n");
+            printf("| Login successful!                                                                |\n");
+            printf("|----------------------------------------------------------------------------------|\n");
             return 1;
         }
     }
-    printf("----------------------------------------------------------------------------------\n");
-    printf("Login unsuccessful. Please check your credentials.\n");
-    printf("----------------------------------------------------------------------------------\n");
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("| Login unsuccessful. Please check your credentials.\n                             |");
+    printf("|----------------------------------------------------------------------------------|\n");
     return 0;
 }
 
@@ -606,25 +634,26 @@ void mainMenu(){
 
 
     if (credential == NULL){
-        printf("----------------------------------------------------------------------------------\n");
-        printf("Error: Could not open the credentials file.\n");
-        printf("----------------------------------------------------------------------------------\n");
+        printf("|----------------------------------------------------------------------------------|\n");
+        printf("|Error: Could not open the credentials file.                                       |\n");
+        printf("|----------------------------------------------------------------------------------|\n");
         return 1;
     }
 
     while (1){
-        printf("Choose an option:\n");
-        printf("----------------------------------------------------------------------------------\n");
-        printf("1. Add bus schedule\n");
-        printf("2. View bus schedule\n");
-        printf("3. Delete bus schedule\n");
-        printf("4. Modify bus schedule\n");
-        printf("5. Search bus\n");
-        printf("6. Cancel a booking\n");
-        printf("7. View booking history\n");
-        printf("----------------------------------------------------------------------------------\n");
-        scanf("%d", &choice2);
-
+        printf("|----------------------------------------------------------------------------------|\n");
+        printf("|                        CHOOSE AN OPTION:                                         |\n");
+        printf("|----------------------------------------------------------------------------------|\n");
+        printf("|                      1. Add bus schedule                                         |\n");
+        printf("|                      2. View bus schedule                                        |\n");
+        printf("|                      3. Delete bus schedule                                      |\n");
+        printf("|                      4. Modify bus schedule                                      |\n");
+        printf("|                      5. Search bus                                               |\n");
+        printf("|                      6. Cancel a booking                                         |\n");
+        printf("|                      7. View booking history                                     |\n");
+        printf("|----------------------------------------------------------------------------------|\n");
+        scanf("   %d", &choice2);
+        printf("|----------------------------------------------------------------------------------|\n");
         switch (choice2){
         case 1:
             addBusSchedule(busDetails);
@@ -649,8 +678,8 @@ void mainMenu(){
             viewBookingHistory(temp);
             break;
         case 8:
-            printf("**************8*************THANKYOU AND GOODBYE**********8************************\n");
-            printf("----------------------------------------------------------------------------------\n");
+            printf("|**************8*************THANKYOU AND GOODBYE**********8***********************|\n");
+            printf("|----------------------------------------------------------------------------------|\n");
             return 0;
         }
     }
@@ -672,23 +701,31 @@ int main(){
 
 
     if (credential == NULL){
-        printf("----------------------------------------------------------------------------------\n");
-        printf("Error: Could not open the credentials file.\n");
-        printf("----------------------------------------------------------------------------------\n");
+        printf("|----------------------------------------------------------------------------------|\n");
+        printf("|Error: Could not open the credentials file.                                       |\n");
+        printf("|----------------------------------------------------------------------------------|\n");
         return 1;
     }
 
-    printf("----------------------------------------------------------------------------------\n");
-    printf("*************************WELCOME TO THE VENTURA BUS BOOKING SYSTEM****************\n");
-    printf("----------------------------------------------------------------------------------\n");
-
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("|*************************WELCOME TO THE VENTURA BUS BOOKING SYSTEM****************|\n");
+    printf("|----------------------------------------------------------------------------------|\n");
+    printf("|         ______________________________________________/                          |\n");
+    printf("|       /  _____   ________    _______       _______   |                           |\n");
+    printf("|      /  /    |   |      |    |     |       |     |  |                            |\n");
+    printf("|     /  /_____|   |______|    |_____|       |_____|  |                            |\n");
+    printf("|    |      VENTURA  SPACE BUS Travel in style        |                            |\n");
+    printf("|    |________________________________________________|                            |\n");
+    printf("|              OOOOO                OOOOO  OOOOO                                   |\n");
+    printf("|----------------------------------------------------------------------------------|\n");
     while (1){
-        printf("Please Select:\n");
-        printf("1. Sign Up\n");
-        printf("2. Login\n");
-        printf("3. Exit\n");
-        scanf("%d", &choice1);
-
+        printf("|                              Select:                                             |\n");
+        printf("|----------------------------------------------------------------------------------|\n");
+        printf("| 1. Sign Up                                                                       |\n");
+        printf("| 2. Login                                                                         |\n");
+        printf("| 3. Exit                                                                          |\n");
+        scanf("%d", &choice1);                                                                     
+        printf("|----------------------------------------------------------------------------------|\n");
         switch (choice1){
         case 1:
             signUp(credential);

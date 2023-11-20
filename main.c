@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <windows.h>
+#include <conio.h>
 
 #define MAX_BUSES 60
 #define MAX_BOOKINGS 100
@@ -487,6 +488,8 @@ void saveReceiptToFile(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS], int chec
 
 void cancelBooking(FILE *receiptFile){
     system("cls");
+    char ch;
+    int i = 0;
     char password[20]; // Password for authentication
     char inputPassword[20]; // User input for password
 
@@ -494,7 +497,13 @@ void cancelBooking(FILE *receiptFile){
     strcpy(password, "ventura"); // Replace "your_password" with the actual password
 
     printf("Enter password to cancel the booking: ");
-    scanf("%s", inputPassword);
+    while((ch = getch())!= 13){
+        inputPassword[i] = ch;
+        i++;
+        printf("*");
+    }
+    inputPassword[i] = '\0';
+    i = 0;
 
     // Compare the input password with the correct password
     if (strcmp(inputPassword, password) == 0){
@@ -614,6 +623,8 @@ void signUp(FILE *credential){
 int login(FILE *credential){
     char username[50];
     char password[50];
+    char ch;
+    int i = 0;
     char fileUsername[50];
     char filePassword[50];
 
@@ -622,7 +633,14 @@ int login(FILE *credential){
     scanf("   %s", username);
     printf("|----------------------------------------------------------------------------------|\n");
     printf("| Enter your password: ");
-    scanf("   %s", password);
+    while((ch = getch())!= 13){
+        password[i] = ch;
+        i++;
+        printf("*");
+    }
+    password[i] = '\0';
+    i = 0;
+    
     rewind(credential); // Reset file pointer to the beginning
 
     while (fscanf(credential, "%s %s", fileUsername, filePassword) != EOF){
@@ -651,7 +669,7 @@ void programRunCounterRead(FILE *programRunfile){
 }
 
 void mainMenu(){
-
+    system("cls");
     FILE *credential;
     credential = fopen("credentials.txt", "a+"); // Open or create the credentials file
     FILE *receipt;
@@ -682,6 +700,8 @@ void mainMenu(){
         printf("|                      5. Search bus                                               |\n");
         printf("|                      6. Cancel a booking                                         |\n");
         printf("|                      7. View booking history                                     |\n");
+        printf("|                      8. Back to Signup/login                                     |\n");
+        printf("|                      9. Exit                                                     |\n");
         printf("|----------------------------------------------------------------------------------|\n");
         scanf("   %d", &choice2);
         printf("|----------------------------------------------------------------------------------|\n");
@@ -709,6 +729,8 @@ void mainMenu(){
             viewBookingHistory(temp);
             break;
         case 8:
+            main();
+        case 9:
             printf("|**************8*************THANKYOU AND GOODBYE**********8***********************|\n");
             printf("|----------------------------------------------------------------------------------|\n");
             return 0;

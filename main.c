@@ -13,6 +13,7 @@
 #define NUM_COLUMNS 4
 
 //Struct to represent a bus schedule
+
 typedef struct
 {
     char departure[MAX_NAME_LENGTH];
@@ -22,11 +23,14 @@ typedef struct
 } BusSchedule;
 
 //Struct to represent an employee
+
 typedef struct
 {
     char usernameEmployee[MAX_NAME_LENGTH];
     char passwordEmployee[MAX_NAME_LENGTH];
 } Employee;
+
+//All global variables used within the program
 
 int numBuses = 0;
 int numBookings = 0;
@@ -43,7 +47,9 @@ char departure[MAX_NAME_LENGTH];
 char destination[MAX_NAME_LENGTH];
 int programRun = 0;
 char busVenturaType[MAX_NAME_LENGTH];
-//Array to represent all buses routes
+
+//Array to represent all buses routes and their specific cost
+
 char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH] = {
     {"Nairobi", "Kisumu", "1200"},
     {"Nairobi", "Nakuru", "800"},
@@ -72,6 +78,8 @@ char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH] = {
     {"Meru", "Kisumu", "1800"}
 };
 
+//Array representing available seats inside a bus
+
 char seatAvailability[NUM_ROWS][2][NUM_COLUMNS] = {
     {0, 0, 0, 0},
     {0, 0, 0, 0},
@@ -84,6 +92,7 @@ char seatAvailability[NUM_ROWS][2][NUM_COLUMNS] = {
 };
 
 // Function to add a new bus schedule
+
 void addBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     system("cls");
 
@@ -103,7 +112,9 @@ void addBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     printf("| New bus schedule added: %s to %s                                                  |\n", departure, destination);
 
 }
+
 // Function to view all bus schedules
+
 int viewAllBusSchedules(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     system("cls");
     int i;
@@ -113,6 +124,8 @@ int viewAllBusSchedules(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     printf("|----------------------------------------------------------------------------------|\n");
     printf("|                       ALL VENTURA BUSES AVAILABLE                                |\n");
     printf("|----------------------------------------------------------------------------------|\n");
+
+    //for loop that iterates through the busDetails array printing each as a route
 
     for(i = 0; i < NUM_ROUTES; i++){
         printf("|          Route %d: %s to %s\n", i + 1, busDetails[i][0], busDetails[i][1]);
@@ -134,7 +147,9 @@ int viewAllBusSchedules(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
         {
             strcpy(departure, busDetails[busnumber - 1][0]);
             strcpy(destination, busDetails[busnumber - 1][1]);
+
             //Display details of the selected bus
+
             printf("| Bus Schedule Selected: %s to %s                                          |\n", departure, destination);
             viewAvailableSeats(seatAvailability);
         }
@@ -146,15 +161,19 @@ int viewAllBusSchedules(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     return 0;
 
 }
+
 // Function to delete a bus schedule
-void deleteBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH])
-{
+
+void deleteBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     system("cls");
+
     int routeIndex;
+
     printf("-----------------------------Existing Bus Schedules------------------------------:\n");
 
-    for (int i = 0; i < numRoutes; ++i)
-    {
+    //for loop that prints out all bus schedules available
+
+    for (int i = 0; i < numRoutes; ++i){
         printf("%d: %s to %s\n", i + 1, busDetails[i][0], busDetails[i][1]);
     }
     printf("-----------------------------------------------------------------------------------\n");
@@ -165,12 +184,14 @@ void deleteBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH])
     if (routeIndex >= 1 && routeIndex <= numRoutes)
     {
         // Delete the bus schedule by shifting elements to overwrite the one being deleted
+
         for (int i = routeIndex - 1; i < numRoutes - 1; ++i)
         {
             strcpy(busDetails[i][0], busDetails[i + 1][0]);
             strcpy(busDetails[i][1], busDetails[i + 1][1]);
         }
         (numRoutes)--; // Decrement the number of routes
+
         printf("---------------------------------------------------------------------------------\n");
         printf("Bus schedule deleted successfully!\n");
         printf("----------------------------------------------------------------------------------\n");
@@ -183,28 +204,32 @@ void deleteBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH])
     }
 
 }
+
 // Function to modify a bus schedule
-void modifyBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], int numRoutes)
-{
+
+void modifyBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], int numRoutes){
     system("cls");
     int routeIndex;
 
     printf("----------------------------------------------------------------------------------\n");
     printf("Existing Bus Schedules:\n");
     printf("----------------------------------------------------------------------------------\n");
+
     //This will print out all bus schedules in place in the current system
-    for (int i = 0; i < numRoutes; ++i)
-    {
+
+    for (int i = 0; i < numRoutes; ++i){
         printf("%d: %s to %s\n", i + 1, busDetails[i][0], busDetails[i][1]);
     }
+
     printf("----------------------------------------------------------------------------------\n");
     printf("Enter the number of the bus schedule to modify: \n");
     scanf("%d", &routeIndex);
     printf("----------------------------------------------------------------------------------\n");
 
-    if (routeIndex >= 1 && routeIndex <= numRoutes)
-    {
+    if (routeIndex >= 1 && routeIndex <= numRoutes){
+
         // Modify the bus schedule
+
         routeIndex--;  // Adjust index to match array index
         printf("Enter the new place of departure: ");
         scanf("%s", busDetails[routeIndex][0]);
@@ -215,8 +240,7 @@ void modifyBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], int numR
         printf("Bus schedule modified successfully!\n");
         printf("----------------------------------------------------------------------------------\n");
     }
-    else
-    {
+    else{
         printf("----------------------------------------------------------------------------------\n");
         printf("Invalid bus schedule number. No modifications made.\n");
         printf("----------------------------------------------------------------------------------\n");
@@ -225,9 +249,10 @@ void modifyBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], int numR
 }
 
 // Function to search for buses based on source and destination
-void searchBus(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
-{
+
+void searchBus(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
     system("cls");
+
     int choice;
     bool busFound = false;
 
@@ -239,6 +264,7 @@ void searchBus(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], char seatAvailab
     system("cls");
 
     // Iterate through the array to find the bus
+
     for (int i = 0; i < numRoutes; ++i)
     {
         if (strcmp(busDetails[i][0], departure) == 0 && strcmp(busDetails[i][1], destination) == 0)
@@ -249,8 +275,8 @@ void searchBus(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], char seatAvailab
     }
 
     // Display the result to the user
-    if (busFound)
-    {
+
+    if (busFound){
         printf("|----------------------------------------------------------------------------------|\n");
         printf("| Bus from %s to %s is available.                                         |\n", departure, destination);
         printf("| Do you want to book this bus?                                                    |\n");
@@ -258,23 +284,19 @@ void searchBus(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], char seatAvailab
         printf("| 2.NO                                                                             |\n");
         scanf("%d", &choice);
         printf("|----------------------------------------------------------------------------------|\n");
-        if (choice == 1)
-        {
+        if (choice == 1){
             viewAvailableSeats(seatAvailability);
             return;
         }
-        else if (choice == 2)
-        {
+        else if (choice == 2){
             return;
         }
-        else
-        {
+        else{
             printf("Invalid option");
         }
 
     }
-    else
-    {
+    else{
         printf("|----------------------------------------------------------------------------------|\n");
         printf("| Bus from %s to %s is not available.                                              |\n", departure, destination);
         printf("|----------------------------------------------------------------------------------|\n");
@@ -282,6 +304,7 @@ void searchBus(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], char seatAvailab
 }
 
 // Function to view available seats for a bus
+
 int viewAvailableSeats(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
 
     printf("|---------------------------------------------------------------------------------|\n");
@@ -304,6 +327,7 @@ int viewAvailableSeats(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
 
     checkSeatAvailability(seatAvailability, busDetails); 
     printBusLayout(seatAvailability);
+
     return 0;
 }
 
@@ -312,6 +336,7 @@ int isSeatAvailable(row, column){
 }
 
 // Function to book a seat
+
 void bookSeat(row, column){
     seatAvailability[row][0][column] = 1;
     seatAvailability[row][1][column] = 1;
@@ -324,9 +349,8 @@ void bookSeat(row, column){
 
 void printBusLayout(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
     for (int i = 0; i < NUM_ROWS; i++)
-    {
-        for (int j = 0; j < NUM_COLUMNS; j++)
         {
+        for (int j = 0; j < NUM_COLUMNS; j++){
             printf("| %d ", seatAvailability[i][0][j] || seatAvailability[i][1][j]);
         }
         printf("                                                                  |\n");
@@ -336,6 +360,7 @@ void printBusLayout(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
 
 int checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS], char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     int choice;
+
     userAmount = 0;
     totalAmount = 0;
 
@@ -437,8 +462,10 @@ void printRecipt(int checkSeatAvailability, char seatAvailability[NUM_ROWS][2][N
     programRun++;
     mainMenu();
 }
+//function to save booking history in a file
 
 void saveReceiptToFile(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS], int checkSeatAvailability){
+
     FILE *file = fopen("receipt.txt", "a");
 
     if (file != NULL){
@@ -457,6 +484,7 @@ void saveReceiptToFile(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS], int chec
 
 
 // Function to cancel a booking
+
 void cancelBooking(FILE *receiptFile){
     system("cls");
     char password[20]; // Password for authentication
@@ -552,6 +580,7 @@ void viewBookingHistory() {
     printf("|----------------------------------------------------------------------------------|\n");
 
     // Display booking history from the selected file
+
     while (fgets(line, sizeof(line), file)) {
         printf("| %s", line);
     }
@@ -561,6 +590,7 @@ void viewBookingHistory() {
 
 
 // Function to register a new employee
+
 void signUp(FILE *credential){
     char username[50];
     char password[50];
@@ -578,7 +608,9 @@ void signUp(FILE *credential){
     printf("|----------------------------------------------------------------------------------|\n");
     system("cls");
 }
+
 // Function to validate employee login
+
 int login(FILE *credential){
     char username[50];
     char password[50];

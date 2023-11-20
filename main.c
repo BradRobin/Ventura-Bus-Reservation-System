@@ -44,33 +44,32 @@ char destination[MAX_NAME_LENGTH];
 int programRun = 0;
 char busVenturaType[MAX_NAME_LENGTH];
 //Array to represent all buses routes
-char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH] =
-{
-    {"Nairobi", "Kisumu"},
-    {"Nairobi", "Nakuru"},
-    {"Nairobi", "Mombasa"},
-    {"Nairobi", "Eldoret"},
-    {"Nairobi", "Meru"},
-    {"Kisumu", "Nairobi"},
-    {"Kisumu", "Nakuru"},
-    {"Kisumu", "Mombasa"},
-    {"Kisumu", "Eldoret"},
-    {"Kisumu", "Meru"},
-    {"Nakuru", "Nairobi"},
-    {"Nakuru", "Kisumu"},
-    {"Nakuru", "Mombasa"},
-    {"Nakuru", "Eldoret"},
-    {"Nakuru", "Meru"},
-    {"Mombasa", "Meru"},
-    {"Mombasa", "Nairobi"},
-    {"Mombasa", "Kisumu"},
-    {"Mombasa", "Eldoret"},
-    {"Mombasa", "Nakuru"},
-    {"Meru", "Nairobi"},
-    {"Meru", "Mombasa"},
-    {"Meru", "Nakuru"},
-    {"Meru", "Eldoret"},
-    {"Meru", "Kisumu"}
+char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH] = {
+    {"Nairobi", "Kisumu", "1200"},
+    {"Nairobi", "Nakuru", "800"},
+    {"Nairobi", "Mombasa", "1500"},
+    {"Nairobi", "Eldoret", "1000"},
+    {"Nairobi", "Meru", "800"},
+    {"Kisumu", "Nairobi", "1200"},
+    {"Kisumu", "Nakuru", "500"},
+    {"Kisumu", "Mombasa", "2500"},
+    {"Kisumu", "Eldoret", "300"},
+    {"Kisumu", "Meru", "1800"},
+    {"Nakuru", "Nairobi", "800"},
+    {"Nakuru", "Kisumu", "500"},
+    {"Nakuru", "Mombasa", "2000"},
+    {"Nakuru", "Eldoret", "300"},
+    {"Nakuru", "Meru", "1000"},
+    {"Mombasa", "Meru", "2000"},
+    {"Mombasa", "Nairobi", "1500"},
+    {"Mombasa", "Kisumu", "2500"},
+    {"Mombasa", "Eldoret", "2200"},
+    {"Mombasa", "Nakuru", "2000"},
+    {"Meru", "Nairobi", "800"},
+    {"Meru", "Mombasa", "2000"},
+    {"Meru", "Nakuru", "1000"},
+    {"Meru", "Eldoret", "1500"},
+    {"Meru", "Kisumu", "1800"}
 };
 
 char seatAvailability[NUM_ROWS][2][NUM_COLUMNS] = {
@@ -85,7 +84,7 @@ char seatAvailability[NUM_ROWS][2][NUM_COLUMNS] = {
 };
 
 // Function to add a new bus schedule
-void addBusSchedule(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH]){
+void addBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     system("cls");
 
     char destination[MAX_NAME_LENGTH];
@@ -105,7 +104,7 @@ void addBusSchedule(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH]){
 
 }
 // Function to view all bus schedules
-int viewAllBusSchedules(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH]){
+int viewAllBusSchedules(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     system("cls");
     int i;
     int choice;
@@ -148,7 +147,7 @@ int viewAllBusSchedules(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH]){
 
 }
 // Function to delete a bus schedule
-void deleteBusSchedule(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH])
+void deleteBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH])
 {
     system("cls");
     int routeIndex;
@@ -185,7 +184,7 @@ void deleteBusSchedule(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH])
 
 }
 // Function to modify a bus schedule
-void modifyBusSchedule(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH], int numRoutes)
+void modifyBusSchedule(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], int numRoutes)
 {
     system("cls");
     int routeIndex;
@@ -226,7 +225,7 @@ void modifyBusSchedule(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH], int numR
 }
 
 // Function to search for buses based on source and destination
-void searchBus(char busDetails[NUM_ROUTES][2][MAX_NAME_LENGTH], char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
+void searchBus(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH], char seatAvailability[NUM_ROWS][2][NUM_COLUMNS])
 {
     system("cls");
     int choice;
@@ -303,7 +302,7 @@ int viewAvailableSeats(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
     printf("|                                                                                 |\n");
     printf("|---------------------------------------------------------------------------------|\n");
 
-    checkSeatAvailability(seatAvailability);
+    checkSeatAvailability(seatAvailability, busDetails); 
     printBusLayout(seatAvailability);
     return 0;
 }
@@ -335,7 +334,7 @@ void printBusLayout(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
     printf("|---------------------------------------------------------------------------------|\n");
 }
 
-void checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
+int checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS], char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
     int choice;
     userAmount = 0;
     totalAmount = 0;
@@ -350,9 +349,9 @@ void checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
     {
         if (isSeatAvailable(row, column))
         {
-            int totalAmount = calculateTotalAmount();
+            totalAmount = calculateTotalAmount(busDetails);
             printf("| Seat at row %d, column %d is available!                                           |\n", row, column);
-            printf("| Amount to pay is 1500KSH, Do you wish to proceed to pay?                        |\n");
+            printf("| Amount to pay is %d, Do you wish to proceed to pay?                        |\n", totalAmount);
             printf("| 1.YES                                                                           |\n");
             printf("| 2.NO                                                                            |\n");
             scanf("%d", &choice);
@@ -362,8 +361,7 @@ void checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
                 printf("| Enter the amount to pay: sh");
                 scanf("%d", &userAmount);
 
-                if(userAmount == totalAmount)
-                {
+                if(userAmount == totalAmount){
                     system("cls");
                     bookSeat(row, column);
                     printf("| Seat at row %d, column %d has been booked.                                        |\n", row, column);
@@ -387,13 +385,14 @@ void checkSeatAvailability(char seatAvailability[NUM_ROWS][2][NUM_COLUMNS]){
             printf("Invalid seat number.\n");
         }
     }
+    return 0;
 }
 
 
 
-int calculateTotalAmount(){
-    int SEAT_COST = 1500;
-    return SEAT_COST;
+int calculateTotalAmount(char busDetails[NUM_ROUTES][3][MAX_NAME_LENGTH]){
+    int seatCost = atoi(busDetails[row][2]);
+    return seatCost;
 }
 
 int checkBookingStatus(int row, int column){

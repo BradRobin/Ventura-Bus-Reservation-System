@@ -669,7 +669,6 @@ void programRunCounterRead(FILE *programRunfile){
 }
 
 void mainMenu(){
-    system("cls");
     FILE *credential;
     credential = fopen("credentials.txt", "a+"); // Open or create the credentials file
     FILE *receipt;

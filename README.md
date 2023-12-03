@@ -15,7 +15,8 @@ To engage with this program all you need is a c compiler. Install a C compiler a
 
 Usage
 
-Ventura bus system can be used in any bus company looking for a system to manage their bus, schedules and customer preferences, 
+Ventura bus system can be used in any bus company looking for a system to manage their bus, schedules and customer preferences,
+When you want to cancel a booking the program will prompt you for a password the password is Ventura.
 
 Features
 
@@ -24,5 +25,5 @@ Ventura bus system has got several features like a secure way for employees to l
 Contact
 
 Github: BradRobin
-Email:  bradr3671@gmail.com
-Phone:  +254112774561
+Email: bradr3671@gmail.com
+Phone: +254112774561
